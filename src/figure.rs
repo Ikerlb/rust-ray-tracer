@@ -11,6 +11,11 @@ pub enum Figure {
 }
 
 impl Figure {
+    pub fn sphere(center: Vec3, radius: f64, mat: Material) -> Self {
+        Self::Sphere(Sphere::new(center, radius, mat))
+    }
+
+
     pub fn hit(&self, ray: &Ray, t_min: f64, t_max: f64) -> Option<HitRecord> {
         match self {
             Figure::Sphere(sphere) => sphere.hit(ray, t_min, t_max)

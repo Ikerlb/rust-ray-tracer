@@ -92,18 +92,18 @@ fn create_final_world<R: Rng>(rng: &mut R, aspect_ratio: f64) -> (World, Camera)
                 if choose_mat < 0.8 {
                     let albedo = Color::rand(rng) * Color::rand(rng);
                     let sphere_mat = Material::lambertian(albedo);
-                    let sphere = Sphere::new(center, 0.2, sphere_mat);
-                    world.add(Figure::Sphere(sphere));
+                    let sphere = Figure::sphere(center, 0.2, sphere_mat); 
+                    world.add(sphere);
                 } else if choose_mat < 0.95 {
                     let albedo = Color::rand_range(rng, 0.5, 1.0);
                     let fuzz = rng.gen_range(0.0..=0.5);
                     let sphere_mat = Material::metal(albedo, fuzz);
-                    let sphere = Sphere::new(center, 0.2, sphere_mat);
-                    world.add(Figure::Sphere(sphere));
+                    let sphere = Figure::sphere(center, 0.2, sphere_mat); 
+                    world.add(sphere);
                 } else {
                     let sphere_mat = Material::dielectric(1.5);
-                    let sphere = Sphere::new(center, 0.2, sphere_mat);
-                    world.add(Figure::Sphere(sphere));
+                    let sphere = Figure::sphere(center, 0.2, sphere_mat);
+                    world.add(sphere);
                 }
             }
         }
@@ -111,22 +111,22 @@ fn create_final_world<R: Rng>(rng: &mut R, aspect_ratio: f64) -> (World, Camera)
 
     let alb1 = Color::new(0.4, 0.2, 0.1);
     let mat1 = Material::lambertian(alb1); 
-    let sphere1 = Sphere::new(Vec3::new(-4.0, 1.0, 0.0), 1.0, mat1);
-    world.add(Figure::Sphere(sphere1));
+    let sphere1 = Figure::sphere(Vec3::new(-4.0, 1.0, 0.0), 1.0, mat1);
+    world.add(sphere1);
     
     let alb2 = Color::new(0.7, 0.6, 0.5);
     let mat2 = Material::metal(alb2, 0.0); 
-    let sphere2 = Sphere::new(Vec3::new(4.0, 1.0, 0.0), 1.0, mat2);
-    world.add(Figure::Sphere(sphere2));
+    let sphere2 = Figure::sphere(Vec3::new(4.0, 1.0, 0.0), 1.0, mat2);
+    world.add(sphere2);
 
     let mat3 = Material::dielectric(1.5);
-    let sphere3 = Sphere::new(Vec3::new(0.0, 1.0, 0.0), 1.0, mat3);
-    world.add(Figure::Sphere(sphere3));
+    let sphere3 = Figure::sphere(Vec3::new(0.0, 1.0, 0.0), 1.0, mat3);
+    world.add(sphere3);
 
     let ground_alb = Color::new(0.5, 0.5, 0.5);
     let ground_mat = Material::lambertian(ground_alb);
-    let sphere = Sphere::new(Vec3::new(0.0, -1000.0, 0.0), 1000.0, ground_mat);
-    world.add(Figure::Sphere(sphere));
+    let sphere = Figure::sphere(Vec3::new(0.0, -1000.0, 0.0), 1000.0, ground_mat);
+    world.add(sphere);
     (world, camera)
 }
 
@@ -138,13 +138,12 @@ fn create_world_with_three_spheres() -> (World, Camera) {
     let mat_left_2 = Material::dielectric(1.5);
     let mat_right = Material::metal(Color::new_color(0.8, 0.6, 0.2), 0.0);
 
-
     let mut world = World::new();
-    let sphere_ground = Sphere::new(Vec3::new(0.0, -100.5, -1.0), 100.0, mat_ground);
-    let sphere1 = Sphere::new(Vec3::new(0.0, 0.0, -1.0), 0.5, mat_center);
-    let sphere2_1 = Sphere::new(Vec3::new(-1.0, 0.0, -1.0), 0.5, mat_left_1);
-    let sphere2_2 = Sphere::new(Vec3::new(-1.0, 0.0, -1.0), -0.4, mat_left_2);
-    let sphere3 = Sphere::new(Vec3::new(1.0, 0.0, -1.0), 0.5, mat_right);
+    let sphere_ground = Figure::sphere(Vec3::new(0.0, -100.5, -1.0), 100.0, mat_ground);
+    let sphere1 = Figure::sphere(Vec3::new(0.0, 0.0, -1.0), 0.5, mat_center);
+    let sphere2_1 = Figure::sphere(Vec3::new(-1.0, 0.0, -1.0), 0.5, mat_left_1);
+    let sphere2_2 = Figure::sphere(Vec3::new(-1.0, 0.0, -1.0), -0.4, mat_left_2);
+    let sphere3 = Figure::sphere(Vec3::new(1.0, 0.0, -1.0), 0.5, mat_right);
 
     let camera = Camera::new(
         Vec3::new(-2.0, 2.0, 1.0),  // lookfrom
@@ -153,11 +152,11 @@ fn create_world_with_three_spheres() -> (World, Camera) {
         20.0,                      // fov
         16.0 / 9.0);
 
-    world.add(Figure::Sphere(sphere_ground));
-    world.add(Figure::Sphere(sphere1));
-    world.add(Figure::Sphere(sphere2_1));
-    world.add(Figure::Sphere(sphere2_2));
-    world.add(Figure::Sphere(sphere3));
+    world.add(sphere_ground);
+    world.add(sphere1);
+    world.add(sphere2_1);
+    world.add(sphere2_2);
+    world.add(sphere3);
     (world, camera)
 }
 
@@ -168,11 +167,11 @@ fn create_two_spheres_world() -> (World, Camera) {
 
     let r = (std::f64::consts::PI / 4.0).cos();
     let mut world = World::new();
-    let sphere_left = Sphere::new(Vec3::new(-r, 0.0, -1.0), r, mat_left);
-    let sphere_right = Sphere::new(Vec3::new(r, 0.0, -1.0), r, mat_right);
+    let sphere_left = Figure::sphere(Vec3::new(-r, 0.0, -1.0), r, mat_left);
+    let sphere_right = Figure::sphere(Vec3::new(r, 0.0, -1.0), r, mat_right);
 
-    world.add(Figure::Sphere(sphere_left));
-    world.add(Figure::Sphere(sphere_right));
+    world.add(sphere_left);
+    world.add(sphere_right);
 
     let camera = Camera::new(
         Vec3::new(0.0, 0.0, 0.0), // lookfrom
