@@ -194,7 +194,6 @@ fn create_two_spheres_world() -> (World, Camera) {
 fn main() {
     let args = Args::parse();
 
-    //let image_width = 1200;
     let image_width = args
         .width
         .unwrap_or(200);
